@@ -8,7 +8,7 @@ load_dotenv()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('SECRET_KEY', default=get_random_secret_key())
-DEBUG = os.environ.get('DEBUG', default=False)
+DEBUG = False
 ALLOWED_HOSTS = ['localhost', '84.201.167.141']
 
 INSTALLED_APPS = [
@@ -22,7 +22,6 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'debug_toolbar',
     'rest_framework',
-    'django_filters',
     # локальные приложения
     'food',
     'food_api',
