@@ -1,0 +1,86 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}
+  {{ recipe.title }}
+{% endblock %}
+{% block static %}
+  <link rel="stylesheet" href="{% static 'pages/single.css' %}">
+{% endblock %} 
+{% block content %}
+{% csrf_token %}
+<div
+class="single-card"
+data-id="{{ recipe.id }}"
+data-author="{{ recipe.author.id }}"
+>
+  <img
+  src="{{ recipe.image.url }}"
+  alt="{{ recipe.title }}"
+  class="single-card__image"
+  >
+  <div class="single-card__info">
+    <div class="single-card__header-info">
+      <h1 class="single-card__title">
+        {{ recipe.title }}
+      </h1>
+      {% if request.user != recipe.author and request.user.is_authenticated %}
+      <div class="single-card__favorite">
+        <!-- при наведении на звездочку всплывает подсказка -->
+        <div class="single-card__favorite-tooltip tooltip">
+          Добавить в избранное
+        </div>
+        {% include 'food/includes/_button_favorites.html' %}
+      </div>
+      {% endif %}
+    </div>
+    <!-- теги, время приготовления, автор рецепта, ссылка на редактирование -->
+      {% include 'food/includes/_food_item_short_info.html' %}
+    <ul class="single-card__items">
+    {% if request.user.is_authenticated %}
+      <li class="single-card__item">
+        <!-- кнопка "Добавить в покупки" -->
+        {% include 'food/includes/_button_purchases.html' with has_added_recipe=has_added_recipe%}
+      </li>
+    {% endif %}
+    {% if request.user != recipe.author and request.user.is_authenticated %}
+      <li class="single-card__item">
+        <!-- кнопка "Подписаться/Отписаться" -->
+        {% include 'food/includes/_button_subscribe.html' %}
+      </li>
+    {% endif %}
+    </ul>
+    <div class="single-card__section">
+      <h3 class="single-card__section-title">
+        Ингредиенты:
+      </h3>
+      <div class="single-card__items single-card__items_column">
+        {% for ing in recipe.recipeingredientamount_set.all %}
+        <p class=" single-card__section-item">
+          {{ ing.ingredient.title }} - {{ ing.amount }} 
+          {{ ing.ingredient.dimension }}
+        </p>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="single-card__section">
+      <h3 class="single-card__section-title">
+        Описание:
+      </h3>
+      <p class="single-card__section-text">
+        {{ recipe.text|linebreaksbr }}
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock content %}
+{% block js %}
+    <script src="{% static 'js/components/Purchases.js' %}"></script>
+    <script src="{% static 'js/components/Favorites.js' %}"></script>
+    <script src="{% static 'js/components/Subscribe.js' %}"></script>
+    <script src="{% static 'js/config/config.js' %}"></script>
+    <script src="{% static 'js/components/MainCards.js' %}"></script>
+    <script src="{% static 'js/components/SingleCard.js' %}"></script>
+    <script src="{% static 'js/components/Header.js' %}"></script>
+    <script src="{% static 'js/api/Api.js' %}"></script>
+    <script src="{% static 'js/singlePage.js' %}"></script>
+{% endblock js %}

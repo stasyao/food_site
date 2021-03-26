@@ -1,0 +1,26 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}
+  Удалить рецепт
+{% endblock %}
+{% block static %}
+  <link rel="stylesheet" href="{% static 'pages/single.css' %}">
+{% endblock %} 
+{% block content %}
+  <h1 class="single-card__title">
+    Удаление рецепта
+  </h1>
+  <div class="form-container">
+    <form class="form" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+      <div class="form__group">
+        <p class="single-card__section-text">
+          Вы действительно хотите удалить рецепт "{{ recipe.title }}"?
+        </p>
+      </div>
+      <div class="form__footer">
+        <button class="button button_style_blue">Удалить рецепт</button>
+      </div>
+    </form>
+  </div>
+{% endblock content %}

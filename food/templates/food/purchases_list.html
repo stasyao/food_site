@@ -1,0 +1,61 @@
+{% extends "_base.html" %} 
+{% load static %}
+{% block title %} 
+  Список покупок
+{% endblock %}
+{% block static %}
+  <link rel="stylesheet" href="{% static 'pages/shopList.css' %}">
+{% endblock %}
+{% block header %}
+  <h1 class="main__title">
+    Список покупок
+  </h1>
+{% endblock header %}
+{% block content %}
+{% csrf_token %}
+  <div class="card-list card-list_column">
+    <ul class="shopping-list">
+      {% load thumbnail %}
+      {% for recipe in purchases_list %}
+      <li class="shopping-list__item" data-id={{ recipe.id }}>
+        <div class="recipe recipe_reverse">
+          {% thumbnail recipe.image "60x60" crop="center" as im %}
+          <img src={{ im.url }} alt={{ recipe.title.url }}
+          class="recipe__image recipe__image_big" style="border-radius: 40px">
+          {% endthumbnail %}
+          <h3 class="recipe__title">
+            {{ recipe.title }}
+          </h3>
+          <p class="recipe__text">
+            <span class="icon-time"></span>
+            {{ recipe.cooking_time }} мин.
+          </p>
+        </div>
+        <button class="button shopping-list__button link">
+          Удалить
+        </button>
+      </li>
+      <!-- Дефолтное сообщение при отсутствии покупок -->
+      {% empty %}
+      <p class="recipe__title">
+        Вы пока не отложили ни одного рецепта
+      </p>
+      {% endfor %}
+    </ul>
+    <!-- Скрываем кнопку, если нет ни одной покупки -->
+    <!-- Также дописан код на JS, чтобы кнопка исчезала сразу -->
+    {% if purchases_list %}
+    <a href="{% url 'food:get_foodlist' %}">
+      <button class="button button_style_blue" id="list_download">
+        Скачать список
+      </button>
+    </a>
+    {% endif %}
+{% endblock content %}
+{% block js %}
+  <script src={% static "js/config/config.js" %}></script>
+  <script src={% static "js/components/Header.js" %}></script>
+  <script src={% static "js/components/ShopList.js" %}></script>
+  <script src={% static "js/api/Api.js" %}></script>
+  <script src={% static "js/shopList.js" %}></script>
+{% endblock js %}

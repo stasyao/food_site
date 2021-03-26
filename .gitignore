@@ -1,3 +1,7 @@
+dev_static/
+sent_emails/
+staticfiles/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

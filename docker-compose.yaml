@@ -1,0 +1,37 @@
+version: '3.5' 
+
+volumes:
+  postgres_data:
+  nginx_config:
+  static_content:
+  media_content:
+
+services: 
+ 
+  db:  
+    image: postgres:12.4-alpine 
+    volumes: 
+      - postgres_data:/var/lib/postgresql/data/ 
+    env_file:
+      - .env
+ 
+  web: 
+    image: stasyao/foodgram:v1.0
+    restart: always
+    volumes: 
+      - nginx_config:/code/nginx
+      - static_content/:/code/static/
+      - media_content/:/code/media/
+    depends_on: 
+      - db
+ 
+  nginx: 
+    image: nginx:1.19.0-alpine 
+    volumes: 
+      - nginx_config:/etc/nginx/conf.d
+      - static_content:/code/static/
+      - media_content/:/code/media/
+    ports: 
+      - 80:80 
+    depends_on: 
+      - web

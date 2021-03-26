@@ -1,0 +1,23 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "==3.0"
+psycopg2 = "*"
+dj-database-url = "*"
+python-dotenv = "*"
+pillow = "*"
+sorl-thumbnail = "*"
+django-filter = "*"
+django-debug-toolbar = "*"
+djangorestframework = "*"
+flake8 = "*"
+flake8-isort = "*"
+gunicorn = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"

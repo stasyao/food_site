@@ -1,0 +1,99 @@
+{% extends '_base.html' %}
+{% load user_filters %}
+{% block title %}
+  {% if request.resolver_match.view_name == 'food:food_create' %}
+    Создание рецепта
+  {% else %}
+    Редактирование рецепта
+  {% endif %}
+{% endblock %}
+{% load static %}
+{% block static %}
+    <link rel="stylesheet" href="{% static 'pages/form.css' %}">
+{% endblock %}
+{% block header %}
+  <h1 class="main__title">
+  {% if request.resolver_match.view_name == 'food:food_create' %}
+    Создать рецепт
+  {% else %}
+    Изменить рецепт
+  {% endif %}
+  </h1>
+{% endblock header %}
+{% block content %}
+  <div class="form-container">
+    <form class="form" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <!-- название рецепта -->
+      <div class="form__group">
+        <label for="{{ form.title.id_for_label }}" class="form__label">
+          {{ form.title.label }}
+        </label>
+        <div class="form__field-group">
+          {{ form.title|addclass:"form__input" }}
+        </div>
+      </div>
+      {% comment %} код для тегов и ингредиентов в силу объема и особой логики вынесен в отдельные шаблоны {% endcomment %}
+      <!-- теги -->
+      {% include 'food/includes/create_edit_form_fields/_field_tags.html' %}
+      <!-- ингредиенты -->
+      {% include 'food/includes/create_edit_form_fields/_field_ingredients.html' %}
+      <!-- время приготовления -->
+      <div class="form__group">
+        <label
+        for="{{ form.cooking_time.id_for_label }}"
+        class="form__label">
+          Время приготовления
+        </label>
+        <div class="form__field-group form__field-group_time">
+          {{ form.cooking_time|addclass:"form__input" }}
+          <label for="id_time" class="form__label">
+            минут
+          </label>
+        </div>
+      </div>
+      <!-- описание -->
+      <div class="form__group">
+        <label
+        for="{{ form.text.id_for_label }}"
+        class="form__label">
+          Описание
+        </label>
+        <div class="form__field-group">
+          {{ form.text|addclass:"form__textarea" }}
+        </div>
+      </div>
+      <!-- загрузить фото -->
+      <div class="form__group">
+        <span class="form__label">
+          Загрузить фото
+        </span>
+        <div class="form__field-group">
+          {{ form.image|addclass:"form__file-button" }}
+        </div>
+      </div>
+      <div class="form__footer">
+        <button class="button button_style_blue">
+          Сохранить
+        </button>
+        <!-- удалить рецепт (только в форме для редактирования, не создания) -->
+        {% if request.resolver_match.view_name == 'food:food_edit' %}
+          <a 
+          style="margin-left: 2.5em"
+          href="{% url 'food:food_delete' recipe.id %}" 
+          class="form__ingredient-link">
+            Удалить
+          </a>
+        {% endif %}
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock content%}
+{% block js %}
+  <script src="{% static '/js/config/config.js' %}"></script>
+  <script src="{% static '/js/components/Header.js' %}"></script>
+  <script src="{% static '/js/utils/debouncing.js' %}"></script>
+  <script src="{% static '/js/api/Api.js' %}"></script>
+  <script src="{% static '/js/formRecipe.js' %}"></script>
+{% endblock js %}

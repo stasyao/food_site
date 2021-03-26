@@ -1,0 +1,24 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}
+  Стасяо
+{% endblock %}
+{% block static %}
+  <link rel="stylesheet" href="{% static 'pages/index.css' %}">
+  <link rel="stylesheet" href="{% static 'pages/single.css' %}">
+{% endblock static %}
+{% block header %}
+  <h1 class="main__title">
+    Ну что тут скажешь
+  </h1>
+{% endblock header %}
+{% block content %}
+<p class="tags__label">
+  Стас, подающий надежды python backend dev.
+</p>
+<p class="tags__label">
+  Мои скромные начинания есть на
+  <a href="https://github.com/stasyao">гитхабе</a>, 
+  а сам я всегда доступен в <a href="https://t.me/yastasyao">телеге</a>.
+</p>
+{% endblock content %}

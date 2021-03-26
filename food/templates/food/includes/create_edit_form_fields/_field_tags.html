@@ -1,0 +1,37 @@
+<!-- поле для выбора тегов в форме создания/редактирования рецепта -->
+{% load user_filters %}
+<div class="form__group">
+  <label for="{{ form.tags.id_for_label }}" class="form__label">
+    {{ form.tags.label }}
+  </label>
+  <div class="form__field-group">
+    <div class="tags">
+      {% for tag in form.tags %}
+        <div class="tags__item">
+          <input type="checkbox" name="{{ tag.data.name }}" 
+          value="{{ tag.data.value }}"
+          id="{{ tag.id_for_label }}"
+          {% if tag.choice_label == 'завтрак' %}
+            class="tags__checkbox tags__checkbox_style_orange"
+          {% elif tag.choice_label == 'обед' %}
+            class="tags__checkbox tags__checkbox_style_green"
+          {% else %}
+            class="tags__checkbox tags__checkbox_style_purple"
+          {% endif %}
+          {% if tag.data.selected %}
+            checked
+          {% endif %}
+          >
+          <label for="{{ tag.data.value }}" class="tags__label">
+            {{ tag.choice_label }}
+          </label>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% if form.tags.errors %}
+  <span class="form__error">
+    {{ form.tags.errors }}
+  </span>
+{% endif %}

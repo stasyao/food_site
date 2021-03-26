@@ -1,0 +1,64 @@
+<!-- поле для выбора ингредиентов и их количества в форме создания/редактирования рецепта -->
+{% load user_filters %}
+<div class="form__group">
+  <label for="nameIngredient" class="form__label">
+    Ингредиенты
+  </label>
+  <div class="form__field-group">
+    <div class="form__field-group-ingredientes">
+      <div class="form__dropdown">
+        <input type="text" id="nameIngredient"class="form__input">
+        <div class="form__dropdown-items">
+        </div>
+      </div>
+      <input type="number" id="cantidad" class="form__input" min="1">
+      <label for="cantidad" class="form__label" id="cantidadVal">
+        шт.
+      </label>
+    </div>
+    <div class="form__field-group-ingredientes-container">
+      <!-- предзаполнение формы ингредиентами в случае редактирования существующего рецепта-->
+      {% if recipe %}
+      {% for ingredient in current_items %}
+      <div
+      class="form__field-item-ingredient" 
+      id="ing_{{ forloop.counter }}"
+      >
+        <span> 
+          {{ ingredient.ingredient__title }} 
+          {{ ingredient.amount }}
+          {{ ingredient.ingredient__dimension }}
+        </span>
+        <!-- крестик для удаления ингредиента -->
+        <span class="form__field-item-delete"></span>
+      <!-- скрытый инпут, через который в POST-запрос попадает список id всех ингредиентов для рецепта -->
+      <input
+      id="nameIngredient_{{ forloop.counter }}"
+      name="nameIngredient"
+      type="hidden" 
+      value="{{ ingredient.ingredient__title }}"
+      >
+      <!-- скрытый инпут, через который в POST-запрос попадает список объемов к каждому ингридиенту (1:1) -->
+      <input
+      id="valueIngredient_{{ forloop.counter }}"
+      name="valueIngredient"
+      type="hidden" 
+      value="{{ ingredient.amount }}">
+      <input
+      id="dimensionIngredient_{{ forloop.counter }}"
+      name="dimensionIngredient"
+      type="hidden" 
+      value="{{ ingredient.ingredient__dimension }}">
+      </div>
+      {% endfor %}
+      {% endif %}
+    </div> 
+    <span class="form__ingredient-link" id="addIng">
+      Добавить ингредиент
+    </span>
+    <!-- обработка ошибок -->
+    <span class="form__error">
+      {{ form.non_field_errors|escape }}
+    </span>
+  </div>
+</div>

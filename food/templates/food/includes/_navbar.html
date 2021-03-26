@@ -1,0 +1,114 @@
+{% csrf_token %}
+  <header class="header">
+    <nav class="nav">
+      <div class="nav__container container">
+        <ul class="nav__items list">
+          <!-- ссылка "Рецепты", ведёт на текущую страницу -->
+          <li class="
+          nav__item
+          {% if request.resolver_match.view_name == 'food:home' %}
+            nav__item_active
+          {% endif %}
+          ">
+            <a href="{% url 'food:home' %}" class="nav__link link">
+              Рецепты
+            </a>
+          </li>
+          <!-- далее все разделы для залогиненных юзеров-->
+          {% if request.user.is_authenticated %}
+          <!-- ссылка "Мои подписки" -->
+          <li class="
+          nav__item
+          {% if request.resolver_match.view_name == 'food:subscriptions' %}
+            nav__item_active
+          {% endif %}
+          ">
+            <a href="{% url 'food:subscriptions' %}" class="nav__link link">
+              Мои подписки
+            </a>
+          </li>
+          <!-- ссылка "Создать рецепт" -->
+          <li class="
+          nav__item
+          {% if request.resolver_match.view_name == 'food:food_create' %}
+            nav__item_active
+          {% endif %}
+          ">
+            <a href="{% url 'food:food_create' %}" class="nav__link link">
+              Создать рецепт
+            </a>
+          </li>
+          <!-- ссылка "Избранное" -->
+          <li class="
+          nav__item
+          {% if request.resolver_match.view_name == 'food:selected_food' %}
+            nav__item_active
+          {% endif %}
+          ">
+            <a href="{% url 'food:selected_food' request.user.pk %}" class="nav__link link">
+              Избранное
+            </a>
+          </li>
+          <!-- ссылка "Список покупок" -->
+          <li 
+          class="nav__item
+          {% if request.resolver_match.view_name == 'food:user_purchases' %}
+            nav__item_active
+          {% endif %}"
+          >
+          <a href="{% url 'food:user_purchases' request.user.pk %} " 
+          class="nav__link link">
+            Список покупок
+          </a>
+          <!-- отображаем количество покупок по данным из базы-->
+          <span 
+          class="badge badge_style_blue nav__badge"
+          id="counter"
+          {% if not request.user.purchases.count %}
+            hidden
+          {% endif %}
+          >
+            {{ request.user.purchases.count }}
+          </span>
+        </li>
+        </ul>
+        <ul class="nav__items list">
+          <!-- ссылка "Изменить пароль" -->
+          <li class="
+          nav__item
+          {% if request.resolver_match.view_name == 'password_change' %}
+            nav__item_active
+          {% endif %}
+          ">
+            <a href="{% url 'password_change' %}" class="nav__link link">
+              Изменить пароль
+            </a>
+          </li>
+          <!-- ссылка "Выход" -->
+          <li class="nav__item">
+            <a href="{% url 'logout' %}" class="nav__link link">
+              Выход
+            </a>
+          </li>
+        </ul>
+        {% else %}
+        </ul>
+        <ul class="nav__items list">
+          <li class="nav__item
+            {% if request.resolver_match.view_name == 'login ' %}
+              nav__item_active
+            {% endif %}">
+            <a href="{% url 'login' %}" class="nav__link link">
+              Войти
+            </a>
+          </li>
+          <li class="nav__item">
+            <a href="{% url 'signup' %}" class="button button_style_blue" style="border: solid 3px">
+              Создать аккаунт
+            </a>
+          </li>
+        </ul>
+        {% endif %}
+      </div>
+    </nav>
+  </header>

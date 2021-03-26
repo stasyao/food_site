@@ -1,0 +1,30 @@
+<div 
+  class="card"
+  data-id="{{ recipe.id }}"
+>
+  <a href="{% url 'food:food' recipe.id %}"
+  class="link"
+  target="_blank">
+    <img
+    src="{{ recipe.image.url }}"
+    alt="{{ recipe.title }}"
+    class="card__image"
+    >
+  </a>
+  <div class="card__body">
+    <a
+    class="card__title link"
+    href="{% url 'food:food' recipe.id %}" target="_blank">
+      {{ recipe.title }}
+    </a>
+    {% include 'food/includes/_food_item_short_info.html' %}
+  </div>
+  {% if request.user.is_authenticated %}
+  <div class="card__footer">
+      {% include 'food/includes/_button_purchases.html' %}
+    {% if request.user != recipe.author %}
+      {% include 'food/includes/_button_favorites.html' %}
+    {% endif %}
+  </div>
+  {% endif %}
+</div>

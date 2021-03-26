@@ -1,0 +1,17 @@
+{% extends "_form_template.html" %}
+{% block title %}
+  Войти
+{% endblock %}
+{% block header %}
+  <h1 class="main__title">
+    Войти
+  </h1>
+{% endblock header %}
+{% block footer %}
+  <button class="button button_style_blue">
+    Войти
+  </button>
+  <a class="form__forgot-link" href="{% url 'password_reset' %}">
+    Забыли пароль?
+  </a>
+{% endblock footer %}

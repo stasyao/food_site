@@ -1,0 +1,33 @@
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>
+      {% block title %}
+      {% endblock %}
+    </title>
+    <link rel="shortcut icon" type="image/png"
+    href="{% static "favicon.ico" %}">
+    {% block static %}
+    {% endblock static %}
+</head>
+<body class="body">
+  {% include 'food/includes/_navbar.html' %}
+  <main class="main container">
+    <div class="main__header">
+    {% block header %}
+    {% endblock header %}
+    </div>
+    {% csrf_token %}
+    {% block content %}
+    {% endblock content %}
+  </main>
+  {% include 'food/includes/_footer.html' %}
+  {% block js %}
+  {% endblock js %}
+</body>
+</html>

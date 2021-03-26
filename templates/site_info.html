@@ -1,0 +1,42 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}
+  Что тут можно делать
+{% endblock %}
+{% block static %}
+  <link rel="stylesheet" href="{% static 'pages/index.css' %}">
+  <link rel="stylesheet" href="{% static 'pages/single.css' %}">
+{% endblock static %}
+{% block header %}
+  <h1 class="main__title">
+    Что тут можно делать
+  </h1>
+{% endblock header %}
+{% block content %}
+<p class="tags__label">
+  Тут можно просматривать рецепты различных блюд, которые разместили пользователи сайта. Можно посмотреть все рецепты вообще, все рецепты конкретного автора, отдельный рецепт.
+</p>
+<p class="tags__label">
+  Но настоящая суперсила появляется, если зарегистрироваться. Это несложно &mdash; простенькая форма, вход по логину/паролю.
+</p>
+<p class="tags__label">
+  Итак, участники проекта "Продуктовый помощник" могут (загибай пальцы):
+</p>
+<ul>
+<li class="tags__label" style="padding:2px">
+  Создавать собственные рецепты (разумеется, редактировать и удалять)
+</li>
+<li class="tags__label" style="padding:2px">
+  Просматривать рецепты любого автора
+</li>
+<li class="tags__label" style="padding:2px">
+  Подписываться на любых авторов
+</li>
+<li class="tags__label" style="padding:2px">
+  Вести собственное "Избранное" из полюбившихся рецептов
+</li>
+<li class="tags__label" style="padding:2px">
+  Собирать в одну корзину рецепты, для которых нужно закупить ингредиенты, и выгрузить полный список ингридентов с точным количеством каждого
+</li>
+</ul>
+{% endblock content %}

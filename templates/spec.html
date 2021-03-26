@@ -1,0 +1,40 @@
+{% extends '_base.html' %}
+{% load static %}
+{% block title %}
+  Чем закалялась сталь
+{% endblock %}
+{% block static %}
+  <link rel="stylesheet" href="{% static 'pages/index.css' %}">
+  <link rel="stylesheet" href="{% static 'pages/single.css' %}">
+{% endblock static %}
+{% block header %}
+  <h1 class="main__title">
+    Чем закалялась сталь
+  </h1>
+{% endblock header %}
+{% block content %}
+<p class="tags__label">
+  Фронт, включая JS, написали ребята с фронтенд-факультета Яндекс Практикума.
+</p>
+<p class="tags__label">
+  Но я честно вник в него и местами донастроил JS, например, сделал валидацию, чтобы в форму создания рецепта не попадали левые ингредиенты.
+  Так что по фронту уже не нулевой.
+</p>
+<p class="tags__label">
+  С меня тут целиком бэковская часть и развертывание в продакшн. В этом непростом пути помогли:
+</p>
+<ul>
+<li class="tags__label" style="padding:2px"><span style="color: red">PostgreSQL 12</span> &mdash; база данных</li>
+<li class="tags__label" style="padding:2px"><span style="color: red">Django 3.0</span> &mdash; на нем модели для базы данных, вся логика работы страниц (переключение по тегам тоже тут), большинство пермишенов</li>
+<li class="tags__label" style="padding:2px"><span style="color: red">Django REST framework</span> &mdash; на нем апишка, которая выполняет заказы от JS &mdash; все эти звёздочки, подписки/отписки и прочие жонглирования базой с фронта (кроме переключения тегов)
+</li>
+<li class="tags__label" style="padding:2px">
+  <span style="color: red" title="Docker">Кит</span>, 
+  <span style="color: red" title="Gunicorn">Единорог</span> и 
+  <span style="color: red" title="Nginx">пришелец ЭнджинИкс</span> 
+  помогли развернуть сайт в облаке
+</li>
+</ul>
+
+
+{% endblock content %}

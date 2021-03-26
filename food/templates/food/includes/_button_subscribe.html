@@ -1,0 +1,37 @@
+{% csrf_token %}
+<!-- страница конкретного автора -->
+{% if request.resolver_match.view_name == 'food:food_author_page' and request.user.is_authenticated %}
+  {% if is_follower %}
+  <div class="author-subscribe" data-author="{{ author_recipe.pk }}">
+      <p style="padding: 0 0 0 0;">
+        <button class="button button_style_light-blue" name="subscribe">
+        <span class="icon-check button__icon"></span>
+          Отписаться от автора
+        </button>
+      </p>
+  </div>
+  {% else %}
+  <div class="author-subscribe" data-author="{{ author_recipe.pk }}">
+      <p style="padding: 0 0 0 0;">
+        <button class="button button_style_light-blue" name="subscribe" data-out>
+          Подписаться на автора
+        </button>
+      </p>
+  </div>
+  {% endif %}
+{% else %}
+  <!-- страница конкретного рецепта -->
+  {% if is_follower %}
+    <button
+    class="button button_style_light-blue button_size_auto" 
+    name="subscribe">
+    <span class="icon-check button__icon"></span>
+      Отписаться от автора
+    </button>
+  {% else %}
+    <button class="button button_style_light-blue button_size_auto" name="subscribe" 
+    data-out>
+      Подписаться на автора
+    </button>
+  {% endif %}
+{% endif %}

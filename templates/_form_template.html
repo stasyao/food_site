@@ -1,0 +1,46 @@
+<!-- базовый шаблон для регистрационных форм -->
+{% extends "_base.html" %}
+{% load user_filters %}
+{% load static %}
+{% block static %}
+  <link rel="stylesheet" href="{% static 'pages/index.css' %}">
+  <link rel="stylesheet" href="{% static 'pages/single.css' %}">
+  <link rel="stylesheet" href="{% static 'pages/form.css' %}">
+{% endblock static %}
+{% block content %}
+{% block form %}
+  <div class="form-container">
+    <form class="form" method="post" action="">
+    {% csrf_token %}
+      {% for field in form %}
+        <div class="form__group">
+          <label
+          for="field.id_for_label"
+          class="form__label">
+            {{ field.label }}
+          </label>
+          <div class="form__field-group">
+            {{field|addclass:"form__input"}}
+              {% if field.errors %}
+                <span class="form__error">
+                  {{ field.errors }}
+                </span>
+              {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+      {% for error in form.non_field_errors %}
+        <span class="form__error">
+          {{ error }}
+        </span>
+      {% endfor %}
+      <br>
+      <div class="form__footer">
+        {% block footer %}
+        {% endblock footer %}
+      </div>
+    </form>
+  {% endblock form %}
+  </div>
+</main>
+{% endblock content %}

@@ -1,0 +1,65 @@
+<!-- страница для отображения всех рецептов, "избранного" и рецептов 
+конкретного автора -->
+{% extends '_base.html' %}
+{% load user_filters %}
+{% load static %}
+{% block title %}
+  Рецепты
+{% endblock %}
+{% block static %}
+  <link rel="stylesheet" href="{% static 'pages/index.css' %}">
+  <link rel="stylesheet" href="{% static 'pages/single.css' %}">
+{% endblock static %}
+{% block header %}
+  <h1 class="main__title">
+  <!-- динамический заголовок в зависимости от вызываемой страницы -->
+  {% if request.resolver_match.view_name == 'food:home' %}
+    Рецепты
+    {{ food_author_page }}
+  {% elif request.resolver_match.view_name == 'food:selected_food'  %}
+    Избранное
+  {% else %}
+    <!-- страница рецептов конкретного автора -->
+    {{ food_list.first.author.get_full_name }}
+  {% endif %}
+  </h1>
+  {% include 'food/includes/_tags.html' %}
+{% endblock header %}
+{% block content %}
+{% csrf_token %}
+<!-- кнопка "Подписаться", если рендерится страница автора-->
+{% if can_be_follower %}
+  {% include 'food/includes/_button_subscribe.html' %}
+{% endif %}
+<div class="card-list">
+  {% for recipe in food_list %}
+    {% include 'food/includes/_food_item.html' %}
+  {% empty %}
+    <p class="tags__label">
+      Пока не добавлено ни одного рецепта
+    </p>
+  {% endfor %}
+</div>
+{% if page_obj.has_other_pages %}
+  {% include 'food/includes/_pagination.html' %}
+{% endif %}
+{% endblock content %}
+{% block js %}
+{% if request.user.is_authenticated %}
+  <script src="{% static "js/components/MainCards.js" %}"></script>
+  <script src="{% static "js/components/Purchases.js" %}"></script>
+  <script src="{% static "js/components/Favorites.js" %}"></script>
+  <script src="{% static "js/config/config.js" %}"></script>
+  <script src="{% static "js/components/CardList.js" %}"></script>
+  <script src="{% static "js/components/Header.js" %}"></script>
+  <script src="{% static "js/api/Api.js" %}"></script>
+  {% if request.resolver_match.view_name == 'food:home' %}
+    <script src="{% static "js/indexAuth.js" %}"></script>
+  {% endif %}
+  <script src="{% static "js/components/Subscribe.js" %}"></script>
+  <script src="{% static "js/components/AuthorRecipe.js" %}"></script>
+  {% if request.resolver_match.view_name != 'food:home' %}
+    <script src="{% static "js/authorRecipe.js" %}"></script>
+  {% endif %}
+{% endif %}
+{% endblock js %}

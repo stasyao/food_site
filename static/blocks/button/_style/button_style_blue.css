@@ -1,0 +1,12 @@
+.button_style_blue {
+    background: #4A61DD;
+    color: #FFFFFF;
+    transition: background 0.2s;
+    transition-property: background;
+    transition-duration: 0.2s;
+    transition-timing-function: ease;
+    transition-delay: 0s;
+}
+.button_style_blue:hover {
+    background: #2845DF;
+}

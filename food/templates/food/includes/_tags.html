@@ -1,0 +1,17 @@
+{% load user_filters %}
+<ul class="tags">
+  {% for tag in tags %}
+    <li class="tags__item">
+      <a id="{{ tag.slug }}" class="tags__checkbox tags__checkbox_style_{{ tag.color }} 
+      {% if tag.slug in request.GET.urlencode %}
+      tags__checkbox_active
+      {% endif %}
+      "
+      href="{% food_tag_link request tag.slug %}">
+      </a>
+      <span class="tags__label">
+        {{ tag.title }}
+      </span>
+    </li>
+  {% endfor %}
+</ul>

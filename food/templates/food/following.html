@@ -1,0 +1,97 @@
+{% extends '_base.html' %}
+{% block title %}
+  Мои подписки
+{% endblock title %}
+{% load static %}
+{% block static %}
+  <link rel="stylesheet" href="{% static 'pages/myFollow.css' %}">
+  <link rel="stylesheet" href="{% static 'pages/index.css' %}">
+  <link rel="stylesheet" href="{% static 'pages/single.css' %}">
+{% endblock static %}
+{% block header %}
+<h1 class="main__title">
+  Мои подписки
+</h1>
+{% endblock header %}
+{% block content %}
+<!-- карточки каждого автора, на которого подписан юзер -->
+<div class="card-list">
+{% for author in authors %}
+  <div class="card-user" data-author="{{ author.pk }}">
+    <div class="card-user__header">
+      <h2 class="card-user__title">
+        <a href="{% url 'food:food_author_page' author.pk %}"
+        class="link">
+          {{ author.get_full_name }}
+        </a>
+      </h2>
+    </div>
+    <div class="card-user__body">
+      <ul class="card-user__items">
+        <!-- список рецептов конкретного автора -->
+        {% comment %}
+          Используем get_info_for_subscription_page - кастомную функцию
+          для менеджера модели recipe.
+          Достает первые три записи, а не все, + вычисляет остаток записей.
+        {% endcomment %}
+        {% with author.recipes.get_info_for_subscription_page as author_info %}
+        {% for recipe in author_info.recipies %}
+        <li class="card-user__item">
+          <div class="recipe">
+              {% load thumbnail %}
+              {% thumbnail recipe.image "60x60" crop="center" as im %}
+              <img src={{ im.url }}
+              alt={{ recipe.title.url }}
+              class="recipe__image" 
+              style="border-radius: 40px">
+              {% endthumbnail %}
+              <h3 class="recipe__title">
+                {{ recipe.title }}
+              </h3>
+              <p class="recipe__text">
+                <span class="icon-time"></span> 
+                {{ recipe.cooking_time }}
+              </p>
+          </div>
+        </li>
+        {% endfor %}
+        {% if author_info.rest %}
+        <li class="card-user__item">
+          <a href="{% url 'food:food_author_page' author.pk %}" 
+          class="card-user__link link">
+            Еще {{ author_info.rest }} 
+            {{ author_info.word }}...
+          </a>
+        </li>
+        {% endif %}
+        {% endwith %}
+      </ul>
+    </div>
+    <div class="card-user__footer">
+      <button class="button button_style_light-blue button_size_auto" name="subscribe">
+        Отписаться
+      </button>
+    </div>
+  </div>
+{% empty %}
+  <div class="card-user" data-author="{{ author.pk }}">
+    <div class="card-user__header">
+      <h2 class="card-user__title">
+        Пока нет ни одной подписки
+      </h2>
+    </div>
+  </div>
+{% endfor %}
+</div>
+{% include 'food/includes/_pagination.html' %}
+{% endblock content %}
+{% block js %}
+  <script src="{% static 'js/components/Subscribe.js' %}"></script>
+  <script src="{% static 'js/config/config.js' %}"></script>
+  <script src="{% static 'js/components/MainCards.js' %}"></script>
+  <script src="{% static 'js/components/SingleCard.js' %}"></script>
+  <script src="{% static 'js/components/Header.js' %}"></script>
+  <script src="{% static 'js/api/Api.js' %}"></script>
+  <script src={% static "js/components/MyFollow.js" %}></script>
+  <script src="{% static "js/myFollow.js" %}"></script>
+{% endblock js %}
