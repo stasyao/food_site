@@ -2,7 +2,6 @@ from django.urls import path
 
 from . import views
 
-
 urlpatterns = [
     path('ingredients/', views.IngredientListView.as_view({'get': 'list'})),
     path('follow/', views.FollowingAdd.as_view()),

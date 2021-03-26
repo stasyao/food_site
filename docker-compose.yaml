@@ -12,8 +12,8 @@ services:
     image: postgres:12.4-alpine 
     volumes: 
       - postgres_data:/var/lib/postgresql/data/ 
-    env_file:
-      - .env
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
  
   web: 
     image: stasyao/foodgram:v1.0
