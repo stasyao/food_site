@@ -9,11 +9,6 @@ class RecipeForm(forms.ModelForm):
         fields = ['title', 'tags', 'cooking_time', 'text', 'image']
 
     def clean(self):
-        """
-        Контроль наличия и уникальности ингредиентов.
-        Контроль того, что ингредиенты только из предложенного списка
-        я реализовал в JS (см. dev_static/js/formRecipe.js)
-        """
         super().clean()
         if (
             len(self.data.getlist('nameIngredient')) !=

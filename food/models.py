@@ -2,6 +2,8 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 
+from .managers import RecipeManager
+
 
 class Tag(models.Model):
     BREAKFAST = 'завтрак'
@@ -15,10 +17,10 @@ class Tag(models.Model):
                      (PURPLE, 'фиолетовый'),)
 
     title = models.CharField('название', max_length=20, unique=True,
-                             choices=MEAL_CHOICES, default=BREAKFAST)
+                             choices=MEAL_CHOICES)
     slug = models.SlugField(null=True)
     color = models.CharField('цвет', max_length=20, unique=True,
-                             choices=COLOR_CHOICES, default=GREEN)
+                             choices=COLOR_CHOICES)
 
     class Meta:
         verbose_name = 'тег'
@@ -39,27 +41,6 @@ class Ingredient(models.Model):
 
     def __str__(self):
         return self.title
-
-
-class RecipeManager(models.Manager):
-    def get_info_for_subscription_page(self):
-        total_recipes = self.count()
-        if total_recipes > 3:
-            rest = total_recipes - 3
-            if rest == 11 or rest % 10 > 4:
-                word = 'рецептов'
-            elif rest % 10 == 1:
-                word = 'рецепт'
-            elif rest % 10 <= 4:
-                word = 'рецепта'
-        else:
-            rest = 0
-            word = None
-        return {
-            'recipies': self.all()[:3],
-            'rest': rest,
-            'word': word,
-        }
 
 
 class Recipe(models.Model):
@@ -148,7 +129,7 @@ class Follow(models.Model):
         return f'{self.user} подписан на {self.author}'
 
 
-class SelectedRecipies(models.Model):
+class SelectedRecipe(models.Model):
     user = models.ForeignKey(to=get_user_model(),
                              on_delete=models.CASCADE,
                              related_name='selected',

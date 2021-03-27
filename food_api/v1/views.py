@@ -6,10 +6,19 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.viewsets import GenericViewSet
 
-from food.models import Follow, Ingredient, Purchase, Recipe, SelectedRecipies
+from food.models import Follow, Ingredient, Purchase, Recipe, SelectedRecipe
 
 from .serializer import (FollowersSerializer, IngredientSerializer,
                          PurchaseSerializer, SelectedRecipiesSerializer)
+
+
+class CustomCreateMixin:
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        if serializer.is_valid():
+            self.perform_create(serializer)
+            return Response({"success": True})
+        return Response({"success": False})
 
 
 class IngredientListView(ListModelMixin, GenericViewSet):
@@ -20,39 +29,25 @@ class IngredientListView(ListModelMixin, GenericViewSet):
     ordering_fields = ['title', ]
 
 
-class SelectFavoriteRecipeView(CreateAPIView):
-    queryset = SelectedRecipies.objects.all()
+class SelectFavoriteRecipeView(CreateAPIView, CustomCreateMixin):
+    queryset = SelectedRecipe.objects.all()
     serializer_class = SelectedRecipiesSerializer
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            self.perform_create(serializer)
-            return Response({"success": True})
-        return Response({"success": False})
 
 
 class DeleteFavoriteView(APIView):
     def delete(self, request, pk):
         selected = get_object_or_404(
-            SelectedRecipies,
+            SelectedRecipe,
             user=request.user,
             recipe=pk
         )
         selected.delete()
-        return Response({"success": "true"})
+        return Response({"success": True})
 
 
-class PurchaseAdd(CreateAPIView):
+class PurchaseAdd(CreateAPIView, CustomCreateMixin):
     queryset = Purchase.objects.all()
     serializer_class = PurchaseSerializer
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            self.perform_create(serializer)
-            return Response({"success": True})
-        return Response({"success": False})
 
 
 class PurchaseDelete(APIView):
@@ -64,16 +59,9 @@ class PurchaseDelete(APIView):
         return Response({"success": False})
 
 
-class FollowingAdd(CreateAPIView):
+class FollowingAdd(CreateAPIView, CustomCreateMixin):
     queryset = Follow.objects.all()
     serializer_class = FollowersSerializer
-
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            self.perform_create(serializer)
-            return Response({"success": True})
-        return Response({"success": False})
 
 
 class FollowingDelete(APIView):

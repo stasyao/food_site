@@ -2,7 +2,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework.validators import UniqueTogetherValidator
 
-from food.models import Follow, Ingredient, Purchase, Recipe, SelectedRecipies
+from food.models import Follow, Ingredient, Purchase, Recipe, SelectedRecipe
 
 
 class IngredientSerializer(serializers.ModelSerializer):
@@ -19,7 +19,7 @@ class SelectedRecipiesSerializer(serializers.ModelSerializer):
     user = serializers.HiddenField(default=serializers.CurrentUserDefault())
 
     class Meta:
-        model = SelectedRecipies
+        model = SelectedRecipe
         fields = ('user', 'id')
 
 

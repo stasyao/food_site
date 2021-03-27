@@ -113,23 +113,23 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
 }
-# статика и медиа
+
 STATIC_URL = '/static/'
-# статика для прода (сюда ее соберет collectstatic)
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-# место нахождения статики при локальной разработке
+
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'dev_static')]
-# место нахождения медиафайлов
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
-# настройки для работы с пользователями
+
 AUTH_USER_MODEL = 'users.CustomUser'
 LOGIN_URL = reverse_lazy('login')
 LOGOUT_URL = reverse_lazy('logout')
 LOGIN_REDIRECT_URL = reverse_lazy('food:home')
 LOGOUT_REDIRECT_URL = reverse_lazy('food:home')
-# настройка dev-бэкенда для электронных сообщений
+
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
-# настройка для джанго-тулбара
+
 INTERNAL_IPS = ['127.0.0.1', ]

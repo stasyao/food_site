@@ -6,15 +6,14 @@ from django.urls.conf import include
 
 from . import settings
 
+handler403 = 'config.views.permission_denied'
+handler404 = 'config.views.page_not_found'
+handler500 = 'config.views.server_error'
+
 urlpatterns = [
-    # админка
     path('admin/', admin.site.urls),
-    # апи для добавления/удаления через JS подписок, покупок, избранного
-    # а также поиска ингредиентов при создании/редактировании рецепта
     path('api/', include('food_api.urls')),
-    # маршруты для аутентификации/авторизации
-    path('auth/', include("users.urls")),
-    # маршруты для CRUD рецептов
+    path('auth/', include('users.urls')),
     path('', include('food.urls')),
     # настройка для джанго-тулбара
     path('__debug__/', include(debug_toolbar.urls)),
