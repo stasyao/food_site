@@ -8,17 +8,9 @@ from rest_framework.viewsets import GenericViewSet
 
 from food.models import Follow, Ingredient, Purchase, Recipe, SelectedRecipe
 
+from .mixins import CustomCreateMixin
 from .serializer import (FollowersSerializer, IngredientSerializer,
                          PurchaseSerializer, SelectedRecipiesSerializer)
-
-
-class CustomCreateMixin:
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        if serializer.is_valid():
-            self.perform_create(serializer)
-            return Response({"success": True})
-        return Response({"success": False})
 
 
 class IngredientListView(ListModelMixin, GenericViewSet):

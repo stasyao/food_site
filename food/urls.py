@@ -27,7 +27,7 @@ urlpatterns = [
      path('edit/<int:pk>', views.RecipeCreateUpdateView.as_view(),
           name='food_edit'),
      # создать рецепт
-     path('create', views.RecipeCreateUpdateView.as_view(),
+     path('create/', views.RecipeCreateUpdateView.as_view(),
           name='food_create'),
      # удалить рецепт
      path('delete/<int:pk>/', views.RecipeDeleteView.as_view(),
