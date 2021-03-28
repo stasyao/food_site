@@ -7,10 +7,11 @@ http://84.201.167.141/
 
 Если установлена десктопная версия Docker на Mac или Windows, отдельная установка docker-compose не требуется. 
 
-Далее 3 простых шага:
+Далее 4 простых шага:
 1. `git clone https://github.com/stasyao/foodgram-project`
 2. `cd foodgram-project`
 3. `docker-compose up -d --build`
+4. `docker exec -it foodgram_web_1 sh entrypoint.sh` (сделает миграции и подгрузит контент).
 
 Будут собраны и запущены три контейнера: база данных, сайт, nginx-сервер.
 
