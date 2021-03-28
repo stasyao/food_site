@@ -18,7 +18,6 @@
     </div>
     <div class="form__field-group-ingredientes-container">
       <!-- предзаполнение формы ингредиентами в случае редактирования существующего рецепта-->
-      {% if recipe %}
       {% for ingredient in current_items %}
       <div
       class="form__field-item-ingredient" 
@@ -51,7 +50,6 @@
       value="{{ ingredient.ingredient__dimension }}">
       </div>
       {% endfor %}
-      {% endif %}
     </div> 
     <span class="form__ingredient-link" id="addIng">
       Добавить ингредиент
