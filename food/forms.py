@@ -21,3 +21,9 @@ class RecipeForm(forms.ModelForm):
             raise forms.ValidationError(
                 'Нужно добавить минимум один ингридиент'
             )
+        if any(
+            map(lambda x: int(x) < 0, self.data.getlist('valueIngredient'))
+        ):
+            raise forms.ValidationError(
+                'Количество ингредиента не может быть отрицательным'
+            )

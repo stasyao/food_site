@@ -16,7 +16,7 @@ services:
       - POSTGRES_HOST_AUTH_METHOD=trust
  
   web: 
-    image: stasyao/foodgram:v1.0
+    image: stasyao/foodgram:v.1.0
     restart: always
     volumes: 
       - nginx_config:/code/nginx

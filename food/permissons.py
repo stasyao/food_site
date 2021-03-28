@@ -23,14 +23,8 @@ class CustomPermissions(UserPassesTestMixin):
         user_or_recipe_id = self.kwargs.get('pk')
         if user_or_recipe_id and current_url in own_user_pages:
             author = get_object_or_404(get_user_model(), pk=user_or_recipe_id)
-            return (
-                self.request.user.is_authenticated and
-                self.request.user == author
-            )
+            return self.request.user == author
         if user_or_recipe_id and current_url in own_recipies_pages:
             recipe = get_object_or_404(Recipe, pk=user_or_recipe_id)
-            return (
-                self.request.user.is_authenticated and
-                self.request.user == recipe.author
-            )
+            return self.request.user == recipe.author
         return True

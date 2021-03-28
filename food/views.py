@@ -137,7 +137,7 @@ class RecipeView(DetailView):
         return context
 
 
-class RecipeCreateUpdateView(CustomPermissions, UpdateView):
+class RecipeCreateUpdateView(LoginRequiredMixin, CustomPermissions, UpdateView):
     """
     Создание и редактирование рецептов.
     """

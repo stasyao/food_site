@@ -18,10 +18,10 @@ const configButton = {
     favorites: {
         attr: 'data-out',
         default: {
-            text: '<span class="icon-favorite icon-favorite_big"></span>'
+            text: '<span class="icon-favorite"></span>'
         },
         active: {
-            text: `<span class="icon-favorite icon-favorite_big icon-favorite_active"></span>`
+            text: `<span class="icon-favorite icon-favorite_active"></span>`
         }
     },
     subscribe: {
