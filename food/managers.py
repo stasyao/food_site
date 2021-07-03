@@ -6,7 +6,7 @@ class RecipeManager(models.Manager):
         total_recipes = self.count()
         if total_recipes > 3:
             rest = total_recipes - 3
-            if rest == 11 or rest % 10 > 4:
+            if rest == 11 or rest % 10 > 4 or rest % 10 == 0:
                 word = 'рецептов'
             elif rest % 10 == 1:
                 word = 'рецепт'
